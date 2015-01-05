@@ -4,34 +4,38 @@
 #define __QSTATICLINKLIST__
 
 
-typedef struct 
-{
-	int val;
-	int cur; // Cursor
-} QStaticListNode;
-
-
 class QStaticLinkList
 {
+
 private:
+
+	typedef struct 
+	{
+		int val;
+		int next;
+	} QStaticListNode;
+
 	QStaticListNode *list;
-	unsigned int length;
+	int Capacity;
+	int length;
 
-	int malloc_SLL();
-	void free_SSL(int idx);
-
+	int  mallocNode();
+	void freeNode(int idx);
 	int getIdx(int pos);
 
 public:
+
 	QStaticLinkList();
 	QStaticLinkList(int capacity);
 
-	//unsigned int length();
-	bool empty()			{ return length == 0;	};
-	int  getPos(int value);
-	int  getVal(int pos);
+	bool empty() { return length == 0; };
+	int  get(int pos);
+	int  find(int value);
 
-	bool insert(int pos, int element);
+	bool insert(int pos, int value);
+	bool Delete(int pos);
+
+	~QStaticLinkList();
 };
 
 #endif

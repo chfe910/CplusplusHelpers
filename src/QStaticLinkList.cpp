@@ -8,56 +8,117 @@ QStaticLinkList::QStaticLinkList()
 	QStaticLinkList(DEFAULT_MAX_SIZE);
 }
 
-/*新建一个一维数组list，将该数组中各分量链成一条备用链表，list[0].cur为头指针，“0”表示空指针*/
+/*新建一个一维数组list，将该数组中各分量链成一条备用链表，list[0].next为头指针，“0”表示空指针*/
 QStaticLinkList::QStaticLinkList(int capacity)
 {
+	Capacity = capacity;
 	list = new QStaticListNode [capacity];
 	for (int i = 0; i < capacity - 1; i++)
 	{
-		list[i].cur = i + 1;
+		list[i].next = i + 1;
 	}
-	list[capacity - 1].cur = 0; // 目前静态链表为空，最后一个元素的cur为0
+	list[capacity - 1].next = 0; // 目前静态链表为空，最后一个元素的next为0
 }
 
 /*若备用空间链表非空，则返回分配的结点下标，否则返回0*/
-int QStaticLinkList::malloc_SLL()
+int QStaticLinkList::mallocNode()
 {
-	int idx = list[0].cur;//当前数组第一个元素的cur存的值，就是要返回的第一个备用空闲的下标。
+	int idx = list[0].next;//当前数组第一个元素的next存的值，就是要返回的第一个备用空闲的下标。
 
 	if (idx)
 	{
-		list[0].cur = list[idx].cur;//由于要拿出一个分量来使用了，所以我们就得把它的下一个分量用来做备用。
+		list[0].next = list[idx].next;//由于要拿出一个分量来使用了，所以我们就得把它的下一个分量用来做备用。
 	}
 
 	return idx;
 }
 
 /*将下标为idx的空闲结点回收到备用链表*/
-void QStaticLinkList::free_SSL(int idx)
+void QStaticLinkList::freeNode(int idx)
 {
-	list[idx].cur = list[0].cur;//把第一个元素cur值赋给要删除的分量cur
-	list[ 0 ].cur = idx;//把要删除的分量下标赋值给第一个元素的cur
+	list[idx].next = list[0].next;//把第一个元素next值赋给要删除的分量next
+	list[ 0 ].next = idx;//把要删除的分量下标赋值给第一个元素的next
 }
 
-/*在list中pos位置之前插入新的数据元素*/
-bool QStaticLinkList::insert(int pos, int element)
+int QStaticLinkList::getIdx(int pos)
 {
-	if (pos < 1 || pos > length)// + 1?
+	if (pos > length) return -1;
+
+	int idx = Capacity - 1;
+	for (int i = 0; i < pos; ++i)
+	{
+		idx = list[idx].next;
+	}
+
+	return idx;
+}
+
+int QStaticLinkList::get(int pos)
+{
+	if (pos > length) return -1;
+
+	int idx = Capacity - 1;
+	for (int i = 0; i < pos; ++i)
+	{
+		idx = list[idx].next;
+	}
+
+	return list[idx].val;
+}
+
+int QStaticLinkList::find(int value)
+{
+	int idx = Capacity - 1;
+	for (int i = 1; i <= length; ++i)
+	{
+		if (list[idx].val == value) return i;
+		idx = list[idx].next;
+	}
+
+	return -1;
+}
+
+/*在链表中pos位置之前插入新的数据元素*/
+bool QStaticLinkList::insert(int pos, int value)
+{
+	if (pos < 1 || pos > length + 1)
 	{
 		return false;
 	}
 
-	int newPos = malloc_SLL();
+	int newPos = mallocNode();
 	if (!newPos)
 	{
 		return false;
 	}
 
-	list[newPos].val = element;
+	list[newPos].val = value;
 	int preIdx = getIdx(pos - 1);
-	list[newPos].cur = list[preIdx].cur;
-	list[preIdx].cur = newPos;
+	list[newPos].next = list[preIdx].next;
+	list[preIdx].next = newPos;
 	++length;
 
 	return true;
+}
+
+/*删除链表中pos位置的数据元素*/
+bool QStaticLinkList::Delete(int pos)
+{
+	if (pos < 1 || pos > length)
+	{
+		return false;
+	}
+	
+	int preIdx = getIdx(pos - 1);
+	int delIdx = list[preIdx].next;
+	list[preIdx].next = list[delIdx].next;
+	freeNode(delIdx);
+	--length;
+
+	return true;
+}
+
+QStaticLinkList::~QStaticLinkList()
+{
+	delete [] list;
 }
