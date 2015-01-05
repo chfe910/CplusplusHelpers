@@ -21,7 +21,7 @@ private:
 	QListNode *head;
 	QListNode *dummyHead;
 	QListNode *tail;
-	unsigned int length;
+	int length;
 
 
 public:
@@ -34,7 +34,7 @@ public:
 	//QListNode *head()		{ return head;				};
 	//QListNode *dummyHead()	{ return dummyHead;			};
 	//QListNode *tail()		{ return tail;				};
-	//unsigned int length()	{ return length;			};
+	//int length()	{ return length;			};
 	bool empty()			{ return length == 0;	};
 
 

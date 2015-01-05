@@ -128,7 +128,7 @@ Type QStaticLinkList<Type>::get(int pos)
 template <class Type>
 int QStaticLinkList<Type>::find(Type value)
 {
-	int idx = Capacity - 1;
+	int idx = list[Capacity - 1].next;
 	for (int i = 1; i <= length; ++i)
 	{
 		if (list[idx].val == value) return i;
