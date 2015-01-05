@@ -17,13 +17,33 @@ class QLinkList
 
 private:
 
+
 	QListNode *head;
 	QListNode *dummyHead;
 	QListNode *tail;
+	unsigned int length;
+
 
 public:
+	
 
-	bool empty() { return head == nullptr; };
+	QLinkList();
+	QLinkList(int *values, int length);
+
+
+	//QListNode *head()		{ return head;				};
+	//QListNode *dummyHead()	{ return dummyHead;			};
+	//QListNode *tail()		{ return tail;				};
+	//unsigned int length()	{ return length;			};
+	bool empty()			{ return length == 0;	};
+
+
+	bool get	(int pos, int &value);
+	bool insert	(int pos, int  value);
+	bool insert	(int pos, int *values, int length);
+	bool Delete	(int pos);
+	bool Delete	(int start, int end);
+
 
 	/* Linked List Cycle */
 	// Given a linked list, determine if it has a cycle in it.
@@ -32,6 +52,11 @@ public:
 	// Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
 	// Solve it without using extra space.
 	QListNode *detectCycle();
+
+
+	~QLinkList();
+
+
 };
 
 #endif
