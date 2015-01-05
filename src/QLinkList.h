@@ -14,15 +14,24 @@ struct QListNode
 
 class QLinkList
 {
+
+private:
+
+	QListNode *head;
+	QListNode *dummyHead;
+	QListNode *tail;
+
 public:
+
+	bool empty() { return head == nullptr; };
 
 	/* Linked List Cycle */
 	// Given a linked list, determine if it has a cycle in it.
 	// Solve it without using extra space.
-    bool hasCycle(QListNode *head);
+    bool hasCycle();
 	// Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
 	// Solve it without using extra space.
-	QListNode *detectCycle(QListNode *head);
+	QListNode *detectCycle();
 };
 
 #endif

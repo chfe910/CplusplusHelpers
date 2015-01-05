@@ -1,7 +1,7 @@
 
 #include "QLinkList.h"
 
-bool QLinkList::hasCycle(QListNode *head)
+bool QLinkList::hasCycle()
 {
     if (!head) return false;
         
@@ -16,7 +16,7 @@ bool QLinkList::hasCycle(QListNode *head)
     return false;
 }
 
-QListNode *QLinkList::detectCycle(QListNode *head)
+QListNode *QLinkList::detectCycle()
 {
     if (!head) return false;
     
