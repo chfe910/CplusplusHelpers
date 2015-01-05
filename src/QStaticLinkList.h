@@ -35,7 +35,7 @@ public:
 	bool insert(int pos, int value);
 	bool Delete(int pos);
 
-	~QStaticLinkList();
+	~QStaticLinkList() { delete [] list; };
 };
 
 #endif

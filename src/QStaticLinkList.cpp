@@ -117,8 +117,3 @@ bool QStaticLinkList::Delete(int pos)
 
 	return true;
 }
-
-QStaticLinkList::~QStaticLinkList()
-{
-	delete [] list;
-}
