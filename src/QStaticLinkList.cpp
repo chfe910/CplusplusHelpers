@@ -3,13 +3,15 @@
 
 #define DEFAULT_MAX_SIZE 1000
 
-QStaticLinkList::QStaticLinkList()
+template <class Type>
+QStaticLinkList<Type>::QStaticLinkList()
 {
 	QStaticLinkList(DEFAULT_MAX_SIZE);
 }
 
 /*新建一个一维数组list，将该数组中各分量链成一条备用链表，list[0].next为头指针，“0”表示空指针*/
-QStaticLinkList::QStaticLinkList(int capacity)
+template <class Type>
+QStaticLinkList<Type>::QStaticLinkList(int capacity)
 {
 	Capacity = capacity;
 	list = new QStaticListNode [capacity];
@@ -21,7 +23,8 @@ QStaticLinkList::QStaticLinkList(int capacity)
 }
 
 /*若备用空间链表非空，则返回分配的结点下标，否则返回0*/
-int QStaticLinkList::mallocNode()
+template <class Type>
+int QStaticLinkList<Type>::mallocNode()
 {
 	int idx = list[0].next;//当前数组第一个元素的next存的值，就是要返回的第一个备用空闲的下标。
 
@@ -34,13 +37,15 @@ int QStaticLinkList::mallocNode()
 }
 
 /*将下标为idx的空闲结点回收到备用链表*/
-void QStaticLinkList::freeNode(int idx)
+template <class Type>
+void QStaticLinkList<Type>::freeNode(int idx)
 {
 	list[idx].next = list[0].next;//把第一个元素next值赋给要删除的分量next
 	list[ 0 ].next = idx;//把要删除的分量下标赋值给第一个元素的next
 }
 
-int QStaticLinkList::getIdx(int pos)
+template <class Type>
+int QStaticLinkList<Type>::getIdx(int pos)
 {
 	if (pos > length) return -1;
 
@@ -53,7 +58,8 @@ int QStaticLinkList::getIdx(int pos)
 	return idx;
 }
 
-int QStaticLinkList::get(int pos)
+template <class Type>
+Type QStaticLinkList<Type>::get(int pos)
 {
 	if (pos > length) return -1;
 
@@ -66,7 +72,8 @@ int QStaticLinkList::get(int pos)
 	return list[idx].val;
 }
 
-int QStaticLinkList::find(int value)
+template <class Type>
+int QStaticLinkList<Type>::find(Type value)
 {
 	int idx = Capacity - 1;
 	for (int i = 1; i <= length; ++i)
@@ -79,7 +86,8 @@ int QStaticLinkList::find(int value)
 }
 
 /*在链表中pos位置之前插入新的数据元素*/
-bool QStaticLinkList::insert(int pos, int value)
+template <class Type>
+bool QStaticLinkList<Type>::insert(int pos, Type value)
 {
 	if (pos < 1 || pos > length + 1)
 	{
@@ -102,7 +110,8 @@ bool QStaticLinkList::insert(int pos, int value)
 }
 
 /*删除链表中pos位置的数据元素*/
-bool QStaticLinkList::Delete(int pos)
+template <class Type>
+bool QStaticLinkList<Type>::Delete(int pos)
 {
 	if (pos < 1 || pos > length)
 	{

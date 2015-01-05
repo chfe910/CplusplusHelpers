@@ -3,7 +3,7 @@
 #ifndef __QSTATICLINKLIST__
 #define __QSTATICLINKLIST__
 
-
+template<class Type>
 class QStaticLinkList
 {
 
@@ -11,7 +11,7 @@ private:
 
 	typedef struct 
 	{
-		int val;
+		Type val;
 		int next;
 	} QStaticListNode;
 
@@ -21,7 +21,7 @@ private:
 
 	int  mallocNode();
 	void freeNode(int idx);
-	int getIdx(int pos);
+	int  getIdx(int pos);
 
 public:
 
@@ -29,10 +29,10 @@ public:
 	QStaticLinkList(int capacity);
 
 	bool empty() { return length == 0; };
-	int  get(int pos);
-	int  find(int value);
+	Type get(int pos);
+	int  find(Type value);
 
-	bool insert(int pos, int value);
+	bool insert(int pos, Type value);
 	bool Delete(int pos);
 
 	~QStaticLinkList() { delete [] list; };
