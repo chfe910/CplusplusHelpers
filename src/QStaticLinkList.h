@@ -37,7 +37,7 @@ public:
 	//赋值构造函数...
 
 	bool empty() { return length == 0; };
-	Type get(int pos);
+	bool get(int pos, Type &value);
 	int  find(Type value);
 
 	bool insert(int pos, Type value);
@@ -112,17 +112,18 @@ int QStaticLinkList<Type>::getIdx(int pos)
 }
 
 template <class Type>
-Type QStaticLinkList<Type>::get(int pos)
+bool QStaticLinkList<Type>::get(int pos, Type &value)
 {
-	if (pos > length) return -1;
+	if (pos < 1 || pos > length) return false;
 
 	int idx = Capacity - 1;
 	for (int i = 0; i < pos; ++i)
 	{
 		idx = list[idx].next;
 	}
+	value = list[idx].val;
 
-	return list[idx].val;
+	return true;
 }
 
 template <class Type>
