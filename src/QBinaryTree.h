@@ -1,11 +1,11 @@
 
-#ifndef __DQTREE__
-#define __DQTREE__
+#ifndef __QBinaryTree__
+#define __QBinaryTree__
 
 #include <vector>
 
 template<class Type>
-class DQTree
+class QBinaryTree
 {
 
 private:
@@ -26,7 +26,7 @@ private:
 public:
 
 	//构造函数
-	DQTree();
+	QBinaryTree();
 	//拷贝构造函数...
 	//赋值构造函数...
 
@@ -40,16 +40,16 @@ public:
 	vector<Type> inorderTraversalByIterate();
 	vector<Type> inorderTraversalByRecursive();
 
-	~DQTree() { cout << "here!";};
+	~QBinaryTree() { cout << "here!";};
 };
 
 template<class Type>
-DQTree<Type>::DQTree()
+QBinaryTree<Type>::QBinaryTree()
 {
 }
 
 template<class Type>
-bool DQTree<Type>::isBalancedHelper(TreeNode *root, int &depth)
+bool QBinaryTree<Type>::isBalancedHelper(TreeNode *root, int &depth)
 {
     if (!root) return true;
     ++depth;
@@ -67,7 +67,7 @@ bool DQTree<Type>::isBalancedHelper(TreeNode *root, int &depth)
 }
 
 template<class Type>
-bool DQTree<Type>::isBalanced()
+bool QBinaryTree<Type>::isBalanced()
 {
     if (empty()) return true;
     int depth = 0;
@@ -75,7 +75,7 @@ bool DQTree<Type>::isBalanced()
 }
 
 template<class Type>
-vector<Type> DQTree<Type>::inorderTraversalByIterate()
+vector<Type> QBinaryTree<Type>::inorderTraversalByIterate()
 {
     vector<Type> result;
 	stack<TreeNode *> walker;
@@ -100,7 +100,7 @@ vector<Type> DQTree<Type>::inorderTraversalByIterate()
 }
 
 template<class Type>
-void DQTree<Type>::inorderTraversalByRecursiveHelper(TreeNode *root, vector<int> &result) {
+void QBinaryTree<Type>::inorderTraversalByRecursiveHelper(TreeNode *root, vector<int> &result) {
 	if (!root) return;
     if (root->left ) inorderTraversal(root->left,  result);
 	result.push_back(root->val);
@@ -108,10 +108,11 @@ void DQTree<Type>::inorderTraversalByRecursiveHelper(TreeNode *root, vector<int>
 }
 
 template<class Type>
-vector<Type> DQTree<Type>::inorderTraversalByRecursive()
+vector<Type> QBinaryTree<Type>::inorderTraversalByRecursive()
 {
     vector<int> result;
 	inorderTraversal(root, result);
 	return result;
 }
+
 #endif

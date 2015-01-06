@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include "QStaticLinkList.h"
-#include "DQTree.h"
+#include "QBinaryTree.h"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 	}
 
 
-	DQTree<int> tree;
+	QBinaryTree<int> tree;
 
 
 
