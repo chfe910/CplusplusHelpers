@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "QStaticLinkList.h"
+#include "DQTree.h"
 
 using namespace std;
 
@@ -25,6 +26,11 @@ int main(int argc, char* argv[])
 	{
 		cout << "error!" << endl;
 	}
+
+
+	DQTree<int> tree;
+
+
 
 	return EXIT_SUCCESS;
 }
