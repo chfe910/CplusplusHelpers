@@ -21,7 +21,7 @@ private:
 
 	TreeNode *root;
 
-	TreeNode *constructFromPreorderAndInorderTraversalHelper(typename vector<Type>::iterator preBegin, typename vector<Type>::iterator preEnd, typename vector<Type>::iterator inBegin, typename vector<Type>::iterator inEnd)
+	TreeNode *constructFromPreorderAndInorderTraversalHelper(  vector<Type>::iterator preBegin, typename vector<Type>::iterator preEnd, typename vector<Type>::iterator inBegin, typename vector<Type>::iterator inEnd)
 	{
 		if (preEnd <= preBegin) return nullptr;
 
@@ -46,7 +46,7 @@ private:
     }
 
 	bool isBalancedHelper(TreeNode *root, int &depth);
-	void inorderTraversalByRecursiveHelper(TreeNode *root, vector<int> &result);
+	void inorderTraversalByRecursiveHelper(TreeNode *root, vector<Type> &result);
 
 public:
 	
@@ -68,7 +68,8 @@ public:
 	vector<Type> inorderTraversalByIterate();
 	vector<Type> inorderTraversalByRecursive();
 
-	~QBinaryTree() { cout << "here!";};
+	void destroy() {  };
+	~QBinaryTree() { destroy(); };
 };
 
 template<class Type>
@@ -128,7 +129,7 @@ vector<Type> QBinaryTree<Type>::inorderTraversalByIterate()
 }
 
 template<class Type>
-void QBinaryTree<Type>::inorderTraversalByRecursiveHelper(TreeNode *root, vector<int> &result) {
+void QBinaryTree<Type>::inorderTraversalByRecursiveHelper(TreeNode *root, vector<Type> &result) {
 	if (!root) return;
     if (root->left ) inorderTraversal(root->left,  result);
 	result.push_back(root->val);
@@ -138,7 +139,7 @@ void QBinaryTree<Type>::inorderTraversalByRecursiveHelper(TreeNode *root, vector
 template<class Type>
 vector<Type> QBinaryTree<Type>::inorderTraversalByRecursive()
 {
-    vector<int> result;
+    vector<Type> result;
 	inorderTraversal(root, result);
 	return result;
 }
