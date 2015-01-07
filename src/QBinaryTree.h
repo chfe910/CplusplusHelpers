@@ -70,11 +70,12 @@ public:
     bool isBalanced();
 
 	/* Traversal Methods */
-	vector<Type>			 preorderTraversalByIterate  ();// Given a binary tree, return the   preorder traversal of its nodes' values. Do it by iterate.
-	vector<Type>			  inorderTraversalByIterate  ();// Given a binary tree, return the    inorder traversal of its nodes' values. Do it by iterate.
-	vector<Type>			  inorderTraversalByRecursive();// Given a binary tree, return the    inorder traversal of its nodes' values. Do it by recursive.
-	vector<Type>			postorderTraversalByIterate  ();// Given a binary tree, return the  postorder traversal of its nodes' values. Do it by iterate.
-	vector<vector<Type> >  levelorderTraversalByIterate  ();// Given a binary tree, return the levelorder traversal of its nodes' values. Do it by iterate. (ie, from left to right, level by level).
+	vector<Type>					 preorderTraversalByIterate  (); // Given a binary tree, return the preorder traversal of its nodes' values. Do it by iterate.
+	vector<Type>					  inorderTraversalByIterate  (); // Given a binary tree, return the inorder traversal of its nodes' values. Do it by iterate.
+	vector<Type>					  inorderTraversalByRecursive(); // Given a binary tree, return the inorder traversal of its nodes' values. Do it by recursive.
+	vector<Type>					postorderTraversalByIterate  (); // Given a binary tree, return the postorder traversal of its nodes' values. Do it by iterate.
+	vector<vector<Type> >		   levelorderTraversalByIterate  (); // Given a binary tree, return the levelorder traversal of its nodes' values.(ie, from left to right, level by level).
+	vector<vector<Type> >  bottomUpLevelorderTraversalByIterate  (); // Given a binary tree, return the bottom-up levelorder traversal of its nodes' values. Do it by iterate. (ie, from left to right, level by level from leaf to root).
 
 	void destroy() {  };
 	~QBinaryTree() { destroy(); };
@@ -225,4 +226,32 @@ vector<vector<Type> > QBinaryTree<Type>::levelorderTraversalByIterate()
 
 	return result;
 }
+
+template<class Type>
+vector<vector<Type> > QBinaryTree<Type>::bottomUpLevelorderTraversalByIterate()
+{
+    vector<vector<Type> > result;
+	vector<Type> level;
+
+	queue<TreeNode *> levelQ;
+	if (root) levelQ.push(root);		
+	while (!levelQ.empty()) {
+		level.clear();
+		int size = levelQ.size();
+		for (int i = 0; i < size; ++i) {
+			TreeNode *node = levelQ.front();
+			levelQ.pop();
+
+			level.push_back(node->val);
+
+			if (node->left ) levelQ.push(node->left );
+			if (node->right) levelQ.push(node->right);
+		}
+
+		result.insert(result.begin(), level);
+	}
+
+	return result;
+}
+
 #endif
