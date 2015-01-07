@@ -3,6 +3,7 @@
 #define __QBinaryTree__
 
 #include <vector>
+#include <stack>
 #include <iterator>
 
 template<class Type>
@@ -67,8 +68,10 @@ public:
 	//For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
     bool isBalanced();
 
-	vector<Type> inorderTraversalByIterate();
-	vector<Type> inorderTraversalByRecursive();
+	vector<Type>  preorderTraversalByIterate  ();// Given a binary tree, return the  preorder traversal of its nodes' values. Do it by iterate.
+	vector<Type>   inorderTraversalByIterate  ();// Given a binary tree, return the   inorder traversal of its nodes' values. Do it by iterate.
+	vector<Type>   inorderTraversalByRecursive();// Given a binary tree, return the   inorder traversal of its nodes' values. Do it by recursive.
+	vector<Type> postorderTraversalByIterate  ();// Given a binary tree, return the postorder traversal of its nodes' values. Do it by iterate.
 
 	void destroy() {  };
 	~QBinaryTree() { destroy(); };
@@ -106,6 +109,27 @@ bool QBinaryTree<Type>::isBalanced()
 }
 
 template<class Type>
+vector<Type> QBinaryTree<Type>::preorderTraversalByIterate() {
+    vector<Type> orderVal;
+
+	if (!root) return orderVal;
+
+	stack<TreeNode *> nodeStack;
+	nodeStack.push(root);
+	while (!nodeStack.empty())
+	{
+		TreeNode *curNode = nodeStack.top();
+		nodeStack.pop();
+		orderVal.push_back(curNode->val);
+
+		if (curNode->right) nodeStack.push(curNode->right);
+		if (curNode->left ) nodeStack.push(curNode->left );
+	}
+
+	return orderVal;
+}
+
+template<class Type>
 vector<Type> QBinaryTree<Type>::inorderTraversalByIterate()
 {
     vector<Type> result;
@@ -131,11 +155,34 @@ vector<Type> QBinaryTree<Type>::inorderTraversalByIterate()
 }
 
 template<class Type>
-void QBinaryTree<Type>::inorderTraversalByRecursiveHelper(TreeNode *root, vector<Type> &result) {
+void inorderTraversalByRecursiveHelper(TreeNode *root, vector<Type> &result) {
 	if (!root) return;
     if (root->left ) inorderTraversal(root->left,  result);
 	result.push_back(root->val);
     if (root->right) inorderTraversal(root->right, result);
+}
+
+template<class Type>
+vector<Type> QBinaryTree<Type>::postorderTraversalByIterate() {
+    vector<Type> orderVal;
+
+	if (!root) return orderVal;
+
+	stack<TreeNode *> nodeStack;
+	nodeStack.push(root);
+	while (!nodeStack.empty())
+	{
+		TreeNode *curNode = nodeStack.top();
+		nodeStack.pop();
+		orderVal.push_back(curNode->val);
+
+		if (curNode->left ) nodeStack.push(curNode->left );
+		if (curNode->right) nodeStack.push(curNode->right);
+	}
+
+	reverse(orderVal.begin(), orderVal.end());
+
+	return orderVal;
 }
 
 template<class Type>
