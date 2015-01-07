@@ -3,6 +3,7 @@
 #define __QBinaryTree__
 
 #include <vector>
+#include <iterator>
 
 template<class Type>
 class QBinaryTree
@@ -17,20 +18,47 @@ private:
 		TreeNode *right;
 		TreeNode(Type x) : val(x), left(nullptr), right(nullptr) {}
 	};
-	
+
 	TreeNode *root;
+
+	TreeNode *constructFromPreorderAndInorderTraversalHelper(typename vector<Type>::iterator preBegin, typename vector<Type>::iterator preEnd, typename vector<Type>::iterator inBegin, typename vector<Type>::iterator inEnd)
+	{
+		if (preEnd <= preBegin) return nullptr;
+
+		TreeNode *root = new TreeNode(*preBegin);
+		int leftNodes  = find(inBegin, inEnd, *preBegin) - inBegin;
+		root->left  = constructFromPreorderAndInorderTraversalHelper(preBegin + 1, preBegin + leftNodes + 1, inBegin, inBegin + leftNodes);
+		root->right = constructFromPreorderAndInorderTraversalHelper(preBegin + leftNodes + 1, preEnd, inBegin + leftNodes + 1, inEnd);
+
+		return root;
+	}
+
+	TreeNode *constructFromInorderAndPostorderTraversalHelper(typename vector<Type> ::iterator inBegin, typename vector<Type> ::iterator inEnd, typename vector<Type> ::iterator postBegin, typename vector<Type> ::iterator postEnd)
+	{
+		if (postEnd <= postBegin) return nullptr;
+
+        TreeNode *root = new TreeNode(*(postEnd - 1));
+		int leftNodes  = find(inBegin, inEnd, *(postEnd - 1)) - inBegin;
+		root->left  = constructFromInorderAndPostorderTraversalHelper(inBegin, inBegin + leftNodes, postBegin, postBegin + leftNodes);
+		root->right = constructFromInorderAndPostorderTraversalHelper(inBegin + leftNodes + 1, inEnd, postBegin + leftNodes, postEnd - 1);
+
+		return root;
+    }
 
 	bool isBalancedHelper(TreeNode *root, int &depth);
 	void inorderTraversalByRecursiveHelper(TreeNode *root, vector<int> &result);
 
 public:
-
+	
 	//构造函数
 	QBinaryTree();
 	//拷贝构造函数...
 	//赋值构造函数...
 
 	bool empty() { return root == nullptr; };
+
+	void constructFromPreorderAndInorderTraversal(vector<Type> &preorder, vector<Type> &inorder) { root = constructFromPreorderAndInorderTraversalHelper(preorder.begin(), preorder.end(), inorder.begin(), inorder.end()); };
+	void constructFromInorderAndPostorderTraversal(vector<Type> &inorder, vector<Type> &postorder) { root = constructFromInorderAndPostorderTraversalHelper(inorder.begin(), inorder.end(), postorder.begin(), postorder.end()); };
 	
 	/* Balanced Binary Tree */
 	//Given a binary tree, determine if it is height-balanced.
