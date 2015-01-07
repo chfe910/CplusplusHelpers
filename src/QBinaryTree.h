@@ -74,8 +74,9 @@ public:
 	vector<Type>					  inorderTraversalByIterate  (); // Given a binary tree, return the inorder traversal of its nodes' values. Do it by iterate.
 	vector<Type>					  inorderTraversalByRecursive(); // Given a binary tree, return the inorder traversal of its nodes' values. Do it by recursive.
 	vector<Type>					postorderTraversalByIterate  (); // Given a binary tree, return the postorder traversal of its nodes' values. Do it by iterate.
-	vector<vector<Type> >		   levelorderTraversalByIterate  (); // Given a binary tree, return the levelorder traversal of its nodes' values.(ie, from left to right, level by level).
-	vector<vector<Type> >  bottomUpLevelorderTraversalByIterate  (); // Given a binary tree, return the bottom-up levelorder traversal of its nodes' values. Do it by iterate. (ie, from left to right, level by level from leaf to root).
+	vector<vector<Type> >		   levelOrderTraversalByIterate  (); // Given a binary tree, return the levelorder traversal of its nodes' values. Do it by iterate. (ie, from left to right, level by level).
+	vector<vector<Type> >  bottomUpLevelOrderTraversalByIterate  (); // Given a binary tree, return the bottom-up levelorder traversal of its nodes' values. Do it by iterate. (ie, from left to right, level by level from leaf to root).
+	vector<vector<Type> >	 zigzagLevelOrderTraversalByIterate  (); // Given a binary tree, return the zigzag level order traversal of its nodes' values. Do it by iterate. (ie, from left to right, then right to left for the next level and alternate between).
 
 	void destroy() {  };
 	~QBinaryTree() { destroy(); };
@@ -199,7 +200,7 @@ vector<Type> QBinaryTree<Type>::postorderTraversalByIterate()
 }
 
 template<class Type>
-vector<vector<Type> > QBinaryTree<Type>::levelorderTraversalByIterate()
+vector<vector<Type> > QBinaryTree<Type>::levelOrderTraversalByIterate()
 {
     vector<vector<Type> > result;
 	vector<Type> level;
@@ -228,7 +229,7 @@ vector<vector<Type> > QBinaryTree<Type>::levelorderTraversalByIterate()
 }
 
 template<class Type>
-vector<vector<Type> > QBinaryTree<Type>::bottomUpLevelorderTraversalByIterate()
+vector<vector<Type> > QBinaryTree<Type>::bottomUpLevelOrderTraversalByIterate()
 {
     vector<vector<Type> > result;
 	vector<Type> level;
@@ -252,6 +253,33 @@ vector<vector<Type> > QBinaryTree<Type>::bottomUpLevelorderTraversalByIterate()
 	}
 
 	return result;
+}
+
+template<class Type>
+vector<vector<Type> > QBinaryTree<Type>::zigzagLevelOrderTraversalByIterate() {
+    vector<vector<Type> > res;
+        
+    vector<TreeNode *> iter;
+    if (root) iter.push_back(root);
+        
+    int isForward = 1;
+    while (!iter.empty()) {
+        int size = iter.size();
+        vector<Type> level;
+            
+        for (int i = 0; i < size; ++i) {
+            level.push_back(iter[i]->val);
+            if (iter[i]->left) iter.push_back(iter[i]->left);
+            if (iter[i]->right) iter.push_back(iter[i]->right);
+        }
+            
+        if (!isForward) reverse(level.begin(), level.end());
+        res.push_back(level);
+        iter.erase(iter.begin(), iter.begin() + size);
+        isForward ^= 0x01;
+    }
+        
+    return res;
 }
 
 #endif
