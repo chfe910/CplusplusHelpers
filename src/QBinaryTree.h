@@ -11,6 +11,8 @@ class QBinaryTree
 
 private:
 
+	typedef typename vector<Type>::iterator TypeVecIter;
+
 	/* Definition for binary tree */
 	struct TreeNode {
 		Type val;
@@ -21,7 +23,7 @@ private:
 
 	TreeNode *root;
 
-	TreeNode *constructFromPreorderAndInorderTraversalHelper(typename vector<Type>::iterator preBegin, typename vector<Type>::iterator preEnd, typename vector<Type>::iterator inBegin, typename vector<Type>::iterator inEnd)
+	TreeNode *constructFromPreorderAndInorderTraversalHelper(TypeVecIter preBegin, TypeVecIter preEnd, TypeVecIter inBegin, TypeVecIter inEnd)
 	{
 		if (preEnd <= preBegin) return nullptr;
 
@@ -33,7 +35,7 @@ private:
 		return root;
 	}
 
-	TreeNode *constructFromInorderAndPostorderTraversalHelper(typename vector<Type> ::iterator inBegin, typename vector<Type> ::iterator inEnd, typename vector<Type> ::iterator postBegin, typename vector<Type> ::iterator postEnd)
+	TreeNode *constructFromInorderAndPostorderTraversalHelper(TypeVecIter inBegin, TypeVecIter inEnd, TypeVecIter postBegin, TypeVecIter postEnd)
 	{
 		if (postEnd <= postBegin) return nullptr;
 
