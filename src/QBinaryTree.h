@@ -21,7 +21,7 @@ private:
 
 	TreeNode *root;
 
-	TreeNode *constructFromPreorderAndInorderTraversalHelper(  vector<Type>::iterator preBegin, typename vector<Type>::iterator preEnd, typename vector<Type>::iterator inBegin, typename vector<Type>::iterator inEnd)
+	TreeNode *constructFromPreorderAndInorderTraversalHelper(typename vector<Type>::iterator preBegin, typename vector<Type>::iterator preEnd, typename vector<Type>::iterator inBegin, typename vector<Type>::iterator inEnd)
 	{
 		if (preEnd <= preBegin) return nullptr;
 
