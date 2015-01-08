@@ -16,7 +16,8 @@ private:
 	typedef typename vector<Type>::iterator TypeVecIter;
 
 	/* Definition for binary tree */
-	struct TreeNode {
+	struct TreeNode
+	{
 		Type val;
 		TreeNode *left;
 		TreeNode *right;
@@ -49,7 +50,8 @@ private:
 		return root;
     }
 
-	TreeNode *convertSortedArrayToBSTHelper(vector<int> &num, int start, int end) {
+	TreeNode *convertSortedArrayToBSTHelper(vector<int> &num, int start, int end)
+	{
 		int mid = (start + end) >> 1;
         TreeNode *root = new TreeNode(num[mid]);
 		
@@ -59,7 +61,8 @@ private:
 		return root;
     }
 
-	bool isSameTreeHelper(TreeNode *p, TreeNode *q) {
+	bool isSameTreeHelper(TreeNode *p, TreeNode *q)
+	{
         if (!p && !q) return true;
         if ( p && !q) return false;
         if (!p &&  q) return false;
@@ -69,6 +72,14 @@ private:
         if (!isSameTreeHelper(p->right, q->right)) return false;
         
         return true;
+    }
+
+	bool isSymmetricHelper(TreeNode *left, TreeNode *right)
+	{
+        if (!left && !right) return true;
+        if (!left || !right) return false;
+        if (left->val != right->val) return false;
+        return isSymmetricHelper(left->left, right->right) && isSymmetricHelper(left->right, right->left);
     }
 
 	bool isBalancedHelper(TreeNode *root, int &depth);
@@ -95,6 +106,10 @@ public:
 	// Given two binary trees, check if they are equal or not.
 	// Two binary trees are considered equal if they are structurally identical and the nodes have the same value.
 	bool isSameTree(QBinaryTree &anotherTree) { return isSameTreeHelper(root, anotherTree.root); } // root is a private member, can get it? -> friend?
+
+	/* Symmetric Tree */
+	// Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+	bool isSymmetric() { return root == nullptr ? true : isSymmetricHelper(root->left, root->right); }
 
 	/* Balanced Binary Tree */
 	// Given a binary tree, determine if it is height-balanced.
