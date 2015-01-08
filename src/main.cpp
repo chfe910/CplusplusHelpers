@@ -3,6 +3,7 @@
 #include <string>
 #include "QStaticLinkList.h"
 #include "QBinaryTree.h"
+#include "QLinkList.h"
 
 using namespace std;
 
@@ -29,6 +30,9 @@ int main(int argc, char* argv[])
 
 
 	QBinaryTree<int> tree;
+
+	QLinkList<int> l;
+	l.hasCycle();
 
 
 

@@ -12,6 +12,7 @@ struct QListNode
 };
 
 
+template<class Type>
 class QLinkList
 {
 
@@ -27,8 +28,8 @@ private:
 public:
 	
 
-	QLinkList();
-	QLinkList(int *values, int length);
+	QLinkList() {}
+	//QLinkList(int *values, int length);
 
 
 	//QListNode *head()		{ return head;				};
@@ -38,11 +39,11 @@ public:
 	bool empty()			{ return length == 0;	};
 
 
-	bool get	(int pos, int &value);
+	/*bool get	(int pos, int &value);
 	bool insert	(int pos, int  value);
 	bool insert	(int pos, int *values, int length);
 	bool Delete	(int pos);
-	bool Delete	(int start, int end);
+	bool Delete	(int start, int end);*/
 
 
 	/* Linked List Cycle */
@@ -54,9 +55,44 @@ public:
 	QListNode *detectCycle();
 
 
-	~QLinkList();
+	~QLinkList() {}
 
 
 };
+
+template<class Type>
+bool QLinkList<Type>::hasCycle()
+{
+    if (!head) return false;
+        
+    QListNode *slow = head, *fast = head;
+    while (slow->next && fast->next && fast->next->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) return true;
+    }
+        
+    return false;
+}
+
+template<class Type>
+QListNode *QLinkList<Type>::detectCycle()
+{
+    if (!head) return false;
+    
+    QListNode *slow = head, *fast = head;
+    while (slow->next && fast->next && fast->next->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) {
+			for (slow = head; slow != fast; slow = slow->next, fast = fast->next) ;
+			return slow;
+		}
+    }
+    
+    return nullptr;
+}
 
 #endif
