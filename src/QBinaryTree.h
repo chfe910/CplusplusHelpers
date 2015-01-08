@@ -84,14 +84,20 @@ private:
 
 public:
 	
-	//构造函数
+	// Constructor
 	QBinaryTree();
-	//拷贝构造函数...
-	//赋值构造函数...
-
+	// Copy Constructor...
+	// = Constructor...
+	
+	/* Empty Tree */
+	// Given a binary tree, check whether it is a empty tree.
 	bool empty() { return root == nullptr; }
 
+	// Construct Binary Tree from Preorder and Inorder Traversal 
+	// Given preorder and inorder traversal of a tree, construct the binary tree.
 	void constructFromPreorderAndInorderTraversal (vector<Type> &preorder, vector<Type> &inorder)   { root = constructFromPreorderAndInorderTraversalHelper(preorder.begin(), preorder.end(), inorder.begin(), inorder.end()); }
+	// Construct Binary Tree from Inorder and Postorder Traversal
+	// Given inorder and postorder traversal of a tree, construct the binary tree.
 	void constructFromInorderAndPostorderTraversal(vector<Type> &inorder,  vector<Type> &postorder) { root = constructFromInorderAndPostorderTraversalHelper(inorder.begin(), inorder.end(), postorder.begin(), postorder.end()); }
 
 	// Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
@@ -131,6 +137,10 @@ public:
 	vector<vector<Type> >  bottomUpLevelOrderTraversalByIterate  (); // Given a binary tree, return the bottom-up levelorder traversal of its nodes' values. Do it by iterate. (ie, from left to right, level by level from leaf to root).
 	vector<vector<Type> >	 zigzagLevelOrderTraversalByIterate  (); // Given a binary tree, return the zigzag level order traversal of its nodes' values. Do it by iterate. (ie, from left to right, then right to left for the next level and alternate between).
 
+	/* Flatten Binary Tree to Linked List */
+	// Given a binary tree, flatten it to a linked list in-place.
+	void flatten();
+
 	void destroy() {  }
 	~QBinaryTree() { destroy(); }
 };
@@ -138,6 +148,7 @@ public:
 template<class Type>
 QBinaryTree<Type>::QBinaryTree()
 {
+	root = nullptr;
 }
 
 template<class Type>
@@ -369,6 +380,28 @@ vector<vector<Type> > QBinaryTree<Type>::zigzagLevelOrderTraversalByIterate()
     }
         
     return res;
+}
+
+template<class Type>
+void QBinaryTree<Type>::flatten()
+{
+	for (TreeNode *pCurChildRoot = root; pCurChildRoot != nullptr; pCurChildRoot = pCurChildRoot->right)
+	{
+		if (pCurChildRoot->left)
+		{
+			TreeNode *pCurNode = pCurChildRoot->left;
+			if (pCurChildRoot->right)
+			{
+				while (pCurNode->right)
+				{
+					pCurNode = pCurNode->right;
+				}
+				pCurNode->right = pCurChildRoot->right;
+			}
+			pCurChildRoot->right = pCurChildRoot->left;
+			pCurChildRoot->left  = nullptr;
+		}
+	}
 }
 
 #endif
