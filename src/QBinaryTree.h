@@ -64,14 +64,9 @@ private:
 	bool isSameTreeHelper(TreeNode *p, TreeNode *q)
 	{
         if (!p && !q) return true;
-        if ( p && !q) return false;
-        if (!p &&  q) return false;
-        
+        if (!p || !q) return false;
         if (p->val != q->val) return false;
-        if (!isSameTreeHelper(p->left , q->left )) return false;
-        if (!isSameTreeHelper(p->right, q->right)) return false;
-        
-        return true;
+        return isSameTreeHelper(p->left, q->left) && isSameTreeHelper(p->right, q->right);
     }
 
 	bool isSymmetricHelper(TreeNode *left, TreeNode *right)
