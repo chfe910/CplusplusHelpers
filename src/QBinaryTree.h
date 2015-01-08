@@ -49,6 +49,16 @@ private:
 		return root;
     }
 
+	TreeNode *convertSortedArrayToBSTHelper(vector<int> &num, int start, int end) {
+		int mid = (start+end)>>1;
+        TreeNode *root = new TreeNode(num[mid]);
+		
+		if (start < mid) root->left  = sortedArrayToBST(num, start, mid - 1);
+		if (mid   < end) root->right = sortedArrayToBST(num, mid + 1, end);
+
+		return root;
+    }
+
 	bool isBalancedHelper(TreeNode *root, int &depth);
 	void inorderTraversalByRecursiveHelper(TreeNode *root, vector<Type> &result);
 
@@ -59,10 +69,12 @@ public:
 	//拷贝构造函数...
 	//赋值构造函数...
 
-	bool empty() { return root == nullptr; };
+	bool empty() { return root == nullptr; }
 
-	void constructFromPreorderAndInorderTraversal(vector<Type> &preorder, vector<Type> &inorder) { root = constructFromPreorderAndInorderTraversalHelper(preorder.begin(), preorder.end(), inorder.begin(), inorder.end()); };
-	void constructFromInorderAndPostorderTraversal(vector<Type> &inorder, vector<Type> &postorder) { root = constructFromInorderAndPostorderTraversalHelper(inorder.begin(), inorder.end(), postorder.begin(), postorder.end()); };
+	void constructFromPreorderAndInorderTraversal (vector<Type> &preorder, vector<Type> &inorder)   { root = constructFromPreorderAndInorderTraversalHelper(preorder.begin(), preorder.end(), inorder.begin(), inorder.end()); }
+	void constructFromInorderAndPostorderTraversal(vector<Type> &inorder,  vector<Type> &postorder) { root = constructFromInorderAndPostorderTraversalHelper(inorder.begin(), inorder.end(), postorder.begin(), postorder.end()); }
+
+	void convertSortedArrayToBST(vector<int> &num) { root = num.empty() ? nullptr : convertSortedArrayToBSTHelper(num, 0, num.size() - 1); } // What if root is not nullptr? 
 	
 	/* Balanced Binary Tree */
 	//Given a binary tree, determine if it is height-balanced.
@@ -78,8 +90,8 @@ public:
 	vector<vector<Type> >  bottomUpLevelOrderTraversalByIterate  (); // Given a binary tree, return the bottom-up levelorder traversal of its nodes' values. Do it by iterate. (ie, from left to right, level by level from leaf to root).
 	vector<vector<Type> >	 zigzagLevelOrderTraversalByIterate  (); // Given a binary tree, return the zigzag level order traversal of its nodes' values. Do it by iterate. (ie, from left to right, then right to left for the next level and alternate between).
 
-	void destroy() {  };
-	~QBinaryTree() { destroy(); };
+	void destroy() {  }
+	~QBinaryTree() { destroy(); }
 };
 
 template<class Type>
@@ -162,16 +174,16 @@ vector<Type> QBinaryTree<Type>::inorderTraversalByIterate()
 template<class Type>
 void QBinaryTree<Type>::inorderTraversalByRecursiveHelper(TreeNode *root, vector<Type> &result) {
 	if (!root) return;
-    if (root->left ) inorderTraversal(root->left,  result);
+    if (root->left ) inorderTraversalByRecursiveHelper(root->left,  result);
 	result.push_back(root->val);
-    if (root->right) inorderTraversal(root->right, result);
+    if (root->right) inorderTraversalByRecursiveHelper(root->right, result);
 }
 
 template<class Type>
 vector<Type> QBinaryTree<Type>::inorderTraversalByRecursive()
 {
     vector<Type> result;
-	inorderTraversal(root, result);
+	inorderTraversalByRecursiveHelper(root, result);
 	return result;
 }
 
