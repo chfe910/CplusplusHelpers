@@ -50,13 +50,25 @@ private:
     }
 
 	TreeNode *convertSortedArrayToBSTHelper(vector<int> &num, int start, int end) {
-		int mid = (start+end)>>1;
+		int mid = (start + end) >> 1;
         TreeNode *root = new TreeNode(num[mid]);
 		
 		if (start < mid) root->left  = sortedArrayToBST(num, start, mid - 1);
 		if (mid   < end) root->right = sortedArrayToBST(num, mid + 1, end);
 
 		return root;
+    }
+
+	bool isSameTreeHelper(TreeNode *p, TreeNode *q) {
+        if (!p && !q) return true;
+        if ( p && !q) return false;
+        if (!p &&  q) return false;
+        
+        if (p->val != q->val) return false;
+        if (!isSameTreeHelper(p->left , q->left )) return false;
+        if (!isSameTreeHelper(p->right, q->right)) return false;
+        
+        return true;
     }
 
 	bool isBalancedHelper(TreeNode *root, int &depth);
@@ -79,6 +91,11 @@ public:
 	// Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
 	void convertSortedArrayToBST(vector<int> &num) { root = num.empty() ? nullptr : convertSortedArrayToBSTHelper(num, 0, num.size() - 1); } // What if root is not nullptr? 
 	
+	/* Same Tree */
+	// Given two binary trees, check if they are equal or not.
+	// Two binary trees are considered equal if they are structurally identical and the nodes have the same value.
+	bool isSameTree(QBinaryTree &anotherTree) { return isSameTreeHelper(root, anotherTree.root); } // root is a private member, can get it? -> friend?
+
 	/* Balanced Binary Tree */
 	// Given a binary tree, determine if it is height-balanced.
 	// For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
@@ -92,7 +109,7 @@ public:
 	/* Minimum Depth of Binary Tree */
 	// Given a binary tree, find its minimum depth.
 	// The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
-	//int minDepth() { return minDepthHelper(root); }
+	// int minDepth() { return minDepthHelper(root); } // Recursive is not a good idea?
 	int minDepth();
 
 	/* Traversal Methods */
@@ -144,7 +161,8 @@ int QBinaryTree<Type>::minDepth()
 {
 	if (!root) return 0;
 
-	struct TreeNodeWithDepth {
+	struct TreeNodeWithDepth
+	{
 		TreeNode *node;
 		int depth;
 		TreeNodeWithDepth(TreeNode *n, int d) : node(n), depth(d) {}
@@ -168,7 +186,8 @@ int QBinaryTree<Type>::minDepth()
 }
 
 template<class Type>
-vector<Type> QBinaryTree<Type>::preorderTraversalByIterate() {
+vector<Type> QBinaryTree<Type>::preorderTraversalByIterate()
+{
     vector<Type> orderVal;
 
 	if (!root) return orderVal;
@@ -214,7 +233,8 @@ vector<Type> QBinaryTree<Type>::inorderTraversalByIterate()
 }
 
 template<class Type>
-void QBinaryTree<Type>::inorderTraversalByRecursiveHelper(TreeNode *root, vector<Type> &result) {
+void QBinaryTree<Type>::inorderTraversalByRecursiveHelper(TreeNode *root, vector<Type> &result)
+{
 	if (!root) return;
     if (root->left ) inorderTraversalByRecursiveHelper(root->left,  result);
 	result.push_back(root->val);
@@ -290,10 +310,12 @@ vector<vector<Type> > QBinaryTree<Type>::bottomUpLevelOrderTraversalByIterate()
 
 	queue<TreeNode *> levelQ;
 	if (root) levelQ.push(root);		
-	while (!levelQ.empty()) {
+	while (!levelQ.empty())
+	{
 		level.clear();
 		int size = levelQ.size();
-		for (int i = 0; i < size; ++i) {
+		for (int i = 0; i < size; ++i)
+		{
 			TreeNode *node = levelQ.front();
 			levelQ.pop();
 
@@ -310,18 +332,21 @@ vector<vector<Type> > QBinaryTree<Type>::bottomUpLevelOrderTraversalByIterate()
 }
 
 template<class Type>
-vector<vector<Type> > QBinaryTree<Type>::zigzagLevelOrderTraversalByIterate() {
+vector<vector<Type> > QBinaryTree<Type>::zigzagLevelOrderTraversalByIterate()
+{
     vector<vector<Type> > res;
         
     vector<TreeNode *> iter;
     if (root) iter.push_back(root);
         
     int isForward = 1;
-    while (!iter.empty()) {
+    while (!iter.empty())
+	{
         int size = iter.size();
         vector<Type> level;
             
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; ++i)
+		{
             level.push_back(iter[i]->val);
             if (iter[i]->left) iter.push_back(iter[i]->left);
             if (iter[i]->right) iter.push_back(iter[i]->right);
