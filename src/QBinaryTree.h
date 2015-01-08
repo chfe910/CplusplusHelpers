@@ -60,6 +60,8 @@ private:
     }
 
 	bool isBalancedHelper(TreeNode *root, int &depth);
+	int  maxDepthHelper(TreeNode *root) { root == nullptr ? 0 : max(maxDepthHelper(root->left) + 1, maxDepthHelper(root->right) + 1); }
+	//int  minDepthHelper(TreeNode *root) { root == nullptr ? 0 : min(minDepthHelper(root->left) + 1, minDepthHelper(root->right) + 1); }
 	void inorderTraversalByRecursiveHelper(TreeNode *root, vector<Type> &result);
 
 public:
@@ -74,12 +76,24 @@ public:
 	void constructFromPreorderAndInorderTraversal (vector<Type> &preorder, vector<Type> &inorder)   { root = constructFromPreorderAndInorderTraversalHelper(preorder.begin(), preorder.end(), inorder.begin(), inorder.end()); }
 	void constructFromInorderAndPostorderTraversal(vector<Type> &inorder,  vector<Type> &postorder) { root = constructFromInorderAndPostorderTraversalHelper(inorder.begin(), inorder.end(), postorder.begin(), postorder.end()); }
 
+	// Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
 	void convertSortedArrayToBST(vector<int> &num) { root = num.empty() ? nullptr : convertSortedArrayToBSTHelper(num, 0, num.size() - 1); } // What if root is not nullptr? 
 	
 	/* Balanced Binary Tree */
-	//Given a binary tree, determine if it is height-balanced.
-	//For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+	// Given a binary tree, determine if it is height-balanced.
+	// For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
     bool isBalanced();
+
+	/* Maximum Depth of Binary Tree */
+	// Given a binary tree, find its maximum depth.
+	// The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+	int maxDepth() { return maxDepthHelper(root); }
+
+	/* Minimum Depth of Binary Tree */
+	// Given a binary tree, find its minimum depth.
+	// The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+	//int minDepth() { return minDepthHelper(root); }
+	int minDepth();
 
 	/* Traversal Methods */
 	vector<Type>					 preorderTraversalByIterate  (); // Given a binary tree, return the preorder traversal of its nodes' values. Do it by iterate.
@@ -123,6 +137,34 @@ bool QBinaryTree<Type>::isBalanced()
     if (empty()) return true;
     int depth = 0;
     return isBalancedHelper(root, depth);
+}
+
+template<class Type>
+int QBinaryTree<Type>::minDepth()
+{
+	if (!root) return 0;
+
+	struct TreeNodeWithDepth {
+		TreeNode *node;
+		int depth;
+		TreeNodeWithDepth(TreeNode *n, int d) : node(n), depth(d) {}
+	};
+
+	int min = INT_MAX;
+	stack<TreeNodeWithDepth> nodeStack;
+
+	nodeStack.push(TreeNodeWithDepth(root, 1));
+	while (!nodeStack.empty())
+	{
+		TreeNodeWithDepth curNode = nodeStack.top();
+		nodeStack.pop();
+
+		if (curNode.node->left ) nodeStack.push(TreeNodeWithDepth(curNode.node->left , curNode.depth + 1));
+		if (curNode.node->right) nodeStack.push(TreeNodeWithDepth(curNode.node->right, curNode.depth + 1));
+		if (!curNode.node->left && !curNode.node->right) min = curNode.depth < min ? curNode.depth : min;
+	}
+
+	return min;
 }
 
 template<class Type>
