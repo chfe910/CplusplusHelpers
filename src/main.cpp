@@ -4,6 +4,7 @@
 #include "QStaticLinkList.h"
 #include "QBinaryTree.h"
 #include "QLinkList.h"
+#include "QAlgorithm.h"
 
 using namespace std;
 
@@ -32,9 +33,9 @@ int main(int argc, char* argv[])
 	QBinaryTree<int> tree;
 
 	QLinkList<int> l;
-	l.hasCycle();
+	//l.hasCycle();
 
-
+	TEST();
 
 	return EXIT_SUCCESS;
 }
