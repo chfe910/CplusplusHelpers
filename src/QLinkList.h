@@ -23,19 +23,19 @@ private:
 	QListNode *tail;
 	int length;
 
-	QListNode *mergeHelper(QListNode *l1, QListNode *l2)
+	QListNode *merge2ListsHelper(QListNode *l1, QListNode *l2)
 	{
 		if (!l1) return l2;
 		if (!l2) return l1;
 
 		if (l1->val <= l2->val)
 		{
-			l1->next = mergeTwoLists(l1->next, l2);
+			l1->next = merge2ListsHelper(l1->next, l2);
 			return l1;
 		}
 		else
 		{
-			l2->next = mergeTwoLists(l1, l2->next);
+			l2->next = merge2ListsHelper(l1, l2->next);
 			return l2;
 		}
     }
@@ -67,7 +67,22 @@ public:
 
 	/* Merge Two Sorted Lists */
 	// Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
-	bool merge(QLinkList anotherList) { mergeHelper(head, anotherList.head) };
+	void merge2Lists(QLinkList list1, QLinkList list2) { head = merge2ListsHelper(list1.head, list2.head); }
+	// Need clear?
+
+	/* Merge k Sorted Lists */
+	// Merge k sorted linked lists and return it as one sorted list.
+    void mergeKLists(vector<QLinkList> &lists) {
+		int leftLists = lists.size();
+		while (leftLists > 1) {
+			for (int i = 0; i < leftLists/2; ++i)
+				lists[i].head = merge2ListsHelper(lists[i].head, lists[leftLists - 1 - i].head);
+			leftLists = (leftLists + 1) / 2;
+		}
+
+		return lists.empty() ? nullptr : lists[0];
+    }
+	// Need clear?
 
 	bool clear() {}
 	~QLinkList() { clear(); }
