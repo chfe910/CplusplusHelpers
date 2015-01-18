@@ -10,6 +10,68 @@
 template<class Type>
 class QBinaryTree
 {
+	
+public:
+	
+	// Constructor
+	QBinaryTree();
+	// Copy Constructor...
+	// = Constructor...
+	
+	/* Empty Tree */
+	// Given a binary tree, check whether it is a empty tree.
+	bool empty() { return root == nullptr; }
+
+	// Construct Binary Tree from Preorder and Inorder Traversal 
+	// Given preorder and inorder traversal of a tree, construct the binary tree.
+	void constructFromPreorderAndInorderTraversal (vector<Type> &preorder, vector<Type> &inorder)   { root = constructFromPreorderAndInorderTraversalHelper(preorder.begin(), preorder.end(), inorder.begin(), inorder.end()); }
+	// Construct Binary Tree from Inorder and Postorder Traversal
+	// Given inorder and postorder traversal of a tree, construct the binary tree.
+	void constructFromInorderAndPostorderTraversal(vector<Type> &inorder,  vector<Type> &postorder) { root = constructFromInorderAndPostorderTraversalHelper(inorder.begin(), inorder.end(), postorder.begin(), postorder.end()); }
+
+	// Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+	void convertSortedArrayToBST(vector<int> &num) { root = num.empty() ? nullptr : convertSortedArrayToBSTHelper(num, 0, num.size() - 1); } // What if root is not nullptr? 
+	
+	/* Same Tree */
+	// Given two binary trees, check if they are equal or not.
+	// Two binary trees are considered equal if they are structurally identical and the nodes have the same value.
+	bool isSameTree(QBinaryTree &anotherTree) { return isSameTreeHelper(root, anotherTree.root); } // root is a private member, can get it? -> friend?
+
+	/* Symmetric Tree */
+	// Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+	bool isSymmetric() { return root == nullptr ? true : isSymmetricHelper(root->left, root->right); }
+
+	/* Balanced Binary Tree */
+	// Given a binary tree, determine if it is height-balanced.
+	// For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+    bool isBalanced();
+
+	/* Maximum Depth of Binary Tree */
+	// Given a binary tree, find its maximum depth.
+	// The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+	int maxDepth() { return maxDepthHelper(root); }
+
+	/* Minimum Depth of Binary Tree */
+	// Given a binary tree, find its minimum depth.
+	// The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+	// int minDepth() { return minDepthHelper(root); } // Recursive is not a good idea?
+	int minDepth();
+
+	/* Traversal Methods */
+	vector<Type>					 preorderTraversalByIterate  (); // Given a binary tree, return the preorder traversal of its nodes' values. Do it by iterate.
+	vector<Type>					  inorderTraversalByIterate  (); // Given a binary tree, return the inorder traversal of its nodes' values. Do it by iterate.
+	vector<Type>					  inorderTraversalByRecursive(); // Given a binary tree, return the inorder traversal of its nodes' values. Do it by recursive.
+	vector<Type>					postorderTraversalByIterate  (); // Given a binary tree, return the postorder traversal of its nodes' values. Do it by iterate.
+	vector<vector<Type> >		   levelOrderTraversalByIterate  (); // Given a binary tree, return the levelorder traversal of its nodes' values. Do it by iterate. (ie, from left to right, level by level).
+	vector<vector<Type> >  bottomUpLevelOrderTraversalByIterate  (); // Given a binary tree, return the bottom-up levelorder traversal of its nodes' values. Do it by iterate. (ie, from left to right, level by level from leaf to root).
+	vector<vector<Type> >	 zigzagLevelOrderTraversalByIterate  (); // Given a binary tree, return the zigzag level order traversal of its nodes' values. Do it by iterate. (ie, from left to right, then right to left for the next level and alternate between).
+
+	/* Flatten Binary Tree to Linked List */
+	// Given a binary tree, flatten it to a linked list in-place.
+	void flatten();
+
+	void clear();
+	~QBinaryTree() { clear(); }
 
 private:
 
@@ -82,67 +144,6 @@ private:
 	//int  minDepthHelper(TreeNode *root) { root == nullptr ? 0 : min(minDepthHelper(root->left) + 1, minDepthHelper(root->right) + 1); }
 	void inorderTraversalByRecursiveHelper(TreeNode *root, vector<Type> &result);
 
-public:
-	
-	// Constructor
-	QBinaryTree();
-	// Copy Constructor...
-	// = Constructor...
-	
-	/* Empty Tree */
-	// Given a binary tree, check whether it is a empty tree.
-	bool empty() { return root == nullptr; }
-
-	// Construct Binary Tree from Preorder and Inorder Traversal 
-	// Given preorder and inorder traversal of a tree, construct the binary tree.
-	void constructFromPreorderAndInorderTraversal (vector<Type> &preorder, vector<Type> &inorder)   { root = constructFromPreorderAndInorderTraversalHelper(preorder.begin(), preorder.end(), inorder.begin(), inorder.end()); }
-	// Construct Binary Tree from Inorder and Postorder Traversal
-	// Given inorder and postorder traversal of a tree, construct the binary tree.
-	void constructFromInorderAndPostorderTraversal(vector<Type> &inorder,  vector<Type> &postorder) { root = constructFromInorderAndPostorderTraversalHelper(inorder.begin(), inorder.end(), postorder.begin(), postorder.end()); }
-
-	// Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
-	void convertSortedArrayToBST(vector<int> &num) { root = num.empty() ? nullptr : convertSortedArrayToBSTHelper(num, 0, num.size() - 1); } // What if root is not nullptr? 
-	
-	/* Same Tree */
-	// Given two binary trees, check if they are equal or not.
-	// Two binary trees are considered equal if they are structurally identical and the nodes have the same value.
-	bool isSameTree(QBinaryTree &anotherTree) { return isSameTreeHelper(root, anotherTree.root); } // root is a private member, can get it? -> friend?
-
-	/* Symmetric Tree */
-	// Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
-	bool isSymmetric() { return root == nullptr ? true : isSymmetricHelper(root->left, root->right); }
-
-	/* Balanced Binary Tree */
-	// Given a binary tree, determine if it is height-balanced.
-	// For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
-    bool isBalanced();
-
-	/* Maximum Depth of Binary Tree */
-	// Given a binary tree, find its maximum depth.
-	// The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
-	int maxDepth() { return maxDepthHelper(root); }
-
-	/* Minimum Depth of Binary Tree */
-	// Given a binary tree, find its minimum depth.
-	// The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
-	// int minDepth() { return minDepthHelper(root); } // Recursive is not a good idea?
-	int minDepth();
-
-	/* Traversal Methods */
-	vector<Type>					 preorderTraversalByIterate  (); // Given a binary tree, return the preorder traversal of its nodes' values. Do it by iterate.
-	vector<Type>					  inorderTraversalByIterate  (); // Given a binary tree, return the inorder traversal of its nodes' values. Do it by iterate.
-	vector<Type>					  inorderTraversalByRecursive(); // Given a binary tree, return the inorder traversal of its nodes' values. Do it by recursive.
-	vector<Type>					postorderTraversalByIterate  (); // Given a binary tree, return the postorder traversal of its nodes' values. Do it by iterate.
-	vector<vector<Type> >		   levelOrderTraversalByIterate  (); // Given a binary tree, return the levelorder traversal of its nodes' values. Do it by iterate. (ie, from left to right, level by level).
-	vector<vector<Type> >  bottomUpLevelOrderTraversalByIterate  (); // Given a binary tree, return the bottom-up levelorder traversal of its nodes' values. Do it by iterate. (ie, from left to right, level by level from leaf to root).
-	vector<vector<Type> >	 zigzagLevelOrderTraversalByIterate  (); // Given a binary tree, return the zigzag level order traversal of its nodes' values. Do it by iterate. (ie, from left to right, then right to left for the next level and alternate between).
-
-	/* Flatten Binary Tree to Linked List */
-	// Given a binary tree, flatten it to a linked list in-place.
-	void flatten();
-
-	void destroy() {  }
-	~QBinaryTree() { destroy(); }
 };
 
 template<class Type>
@@ -401,6 +402,22 @@ void QBinaryTree<Type>::flatten()
 			pCurChildRoot->right = pCurChildRoot->left;
 			pCurChildRoot->left  = nullptr;
 		}
+	}
+}
+
+template<class Type>
+void QBinaryTree<Type>::clear()
+{
+	queue<TreeNode *> iter;
+	if (root) iter.push(root);
+
+	while (!iter.empty())
+	{
+		TreeNode *node = iter.top();
+		iter.pop();
+		if (node->left ) iter.push(node->left );
+		if (node->right) iter.push(node->right);
+		delete(node);
 	}
 }
 
