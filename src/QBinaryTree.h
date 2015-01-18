@@ -1,6 +1,6 @@
 
-#ifndef __QBinaryTree__
-#define __QBinaryTree__
+#ifndef __QBINARYTREE_H__
+#define __QBINARYTREE_H__
 
 #include <vector>
 #include <stack>
