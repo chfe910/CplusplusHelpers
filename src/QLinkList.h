@@ -16,30 +16,6 @@ template<class Type>
 class QLinkList
 {
 
-private:
-
-	QListNode *head;
-	QListNode *dummyHead;
-	QListNode *tail;
-	int length;
-
-	QListNode *merge2ListsHelper(QListNode *l1, QListNode *l2)
-	{
-		if (!l1) return l2;
-		if (!l2) return l1;
-
-		if (l1->val <= l2->val)
-		{
-			l1->next = merge2ListsHelper(l1->next, l2);
-			return l1;
-		}
-		else
-		{
-			l2->next = merge2ListsHelper(l1, l2->next);
-			return l2;
-		}
-    }
-
 public:
 	
 	QLinkList() {}
@@ -48,8 +24,11 @@ public:
 	//QListNode *head()		{ return head;				};
 	//QListNode *dummyHead()	{ return dummyHead;			};
 	//QListNode *tail()		{ return tail;				};
-	//int length()	{ return length;			};
+	int length()			{ return length;		};
 	bool empty()			{ return length == 0;	};
+
+	bool copy(QLinkList srcList);
+	void clear();
 
 	/*bool get	(int pos, int &value);
 	bool insert	(int pos, int  value);
@@ -84,13 +63,50 @@ public:
     }
 	// Need clear?
 
-	void clear();
 	~QLinkList()
 	{
 		clear();
 		delete dummyHead;
 	}
+
+private:
+
+	QListNode *head;
+	QListNode *dummyHead;
+	QListNode *tail;
+	int length;
+
+	QListNode *merge2ListsHelper(QListNode *l1, QListNode *l2)
+	{
+		if (!l1) return l2;
+		if (!l2) return l1;
+
+		if (l1->val <= l2->val)
+		{
+			l1->next = merge2ListsHelper(l1->next, l2);
+			return l1;
+		}
+		else
+		{
+			l2->next = merge2ListsHelper(l1, l2->next);
+			return l2;
+		}
+    }
+
 };
+
+template<class Type>
+bool QLinkList<Type>::copy(QLinkList srcList)
+{
+	if (!empty())
+	{
+		return false;
+	}
+
+	// ...
+
+	return true;
+}
 
 template<class Type>
 bool QLinkList<Type>::hasCycle()
@@ -136,6 +152,5 @@ void QLinkList<Type>::clear()
 		delete pNode;
 	}
 }
-
 
 #endif
