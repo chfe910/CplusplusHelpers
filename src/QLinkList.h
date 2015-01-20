@@ -84,7 +84,7 @@ public:
     }
 	// Need clear?
 
-	bool clear() {}
+	bool clear();
 	~QLinkList() { clear(); }
 };
 
@@ -121,6 +121,12 @@ QListNode *QLinkList<Type>::detectCycle()
     }
     
     return nullptr;
+}
+
+template<class Type>
+bool QLinkList<Type>::clear()
+{
+	return true;
 }
 
 
