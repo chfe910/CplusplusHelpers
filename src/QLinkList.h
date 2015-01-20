@@ -84,8 +84,12 @@ public:
     }
 	// Need clear?
 
-	bool clear();
-	~QLinkList() { clear(); }
+	void clear();
+	~QLinkList()
+	{
+		clear();
+		delete dummyHead;
+	}
 };
 
 template<class Type>
@@ -124,9 +128,13 @@ QListNode *QLinkList<Type>::detectCycle()
 }
 
 template<class Type>
-bool QLinkList<Type>::clear()
+void QLinkList<Type>::clear()
 {
-	return true;
+	for (QListNode *pNode = dummyHead->next; pNode != nullptr; pNode = dummyHead->next)
+	{
+		dummyHead->next = dummyHead->next->next;
+		delete pNode;
+	}
 }
 
 
