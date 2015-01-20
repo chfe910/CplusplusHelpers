@@ -24,8 +24,8 @@ public:
 	//QListNode *head()		{ return head;				};
 	//QListNode *dummyHead()	{ return dummyHead;			};
 	//QListNode *tail()		{ return tail;				};
-	int length()			{ return length;		};
-	bool empty()			{ return length == 0;	};
+	int  length()			{ return length;		};
+	bool  empty()			{ return length == 0;	};
 
 	bool copy(QLinkList srcList);
 	void clear();
